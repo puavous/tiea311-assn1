@@ -29,7 +29,7 @@ libvecmath.a: $(addprefix vecmath/src/,$(VECMATHSRC))
 	g++ -c $(CFLAGS) $(INCFLAGS) $(addprefix vecmath/src/,$(VECMATHSRC))
 	ar crf $@ $(VECMATHOBJ)
 
-$(PROG): $(OBJS)
+$(PROG): $(OBJS) libvecmath.a
 	$(CC) $(CFLAGS) $(OBJS) -o $@ $(LINKFLAGS)
 
 .cpp.o:
