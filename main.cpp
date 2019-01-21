@@ -2,13 +2,18 @@
 #include <windows.h>
 #endif
 
+#ifdef WIN32
+#include <GL/freeglut.h>
+#else
+#include <GL/glut.h>
+#endif
+
 #include <cmath>
 #include <iostream>
 #include <cstdlib>
 #include <fstream>
 #include <vector>
 
-#include <GL/glut.h>
 #include <vecmath.h>
 
 #include "parse.h"
