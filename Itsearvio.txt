@@ -1,2 +1,3 @@
 This file should contain the name of the student and his/her
 self-assessment according to our local exercise specifications.
+(In Finnish, for our local course)
