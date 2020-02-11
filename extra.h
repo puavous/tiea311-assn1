@@ -11,24 +11,24 @@
 #endif
 
 // Inline functions to help with drawing
-inline void glVertex( const Vector3f& a )
+inline void glVertex(const Vector3f& a)
 {
     glVertex3fv(a);
 }
 
-inline void glNormal( const Vector3f& a ) 
+inline void glNormal(const Vector3f& a)
 {
     glNormal3fv(a);
 }
 
-inline void glLoadMatrix( const Matrix4f& m )
+inline void glLoadMatrix(const Matrix4f& m)
 {
-    glLoadMatrixf( m );
+    glLoadMatrixf(m);
 }
 
-inline void glMultMatrix( const Matrix4f& m )
+inline void glMultMatrix(const Matrix4f& m)
 {
-    glMultMatrixf( m );
+    glMultMatrixf(m);
 }
 
 #endif

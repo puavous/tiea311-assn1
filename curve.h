@@ -33,17 +33,17 @@ typedef std::vector< CurvePoint > Curve;
 
 // Assume number of control points properly specifies a piecewise
 // Bezier curve.  I.e., C.size() == 4 + 3*n, n=0,1,...
-Curve evalBezier( const std::vector< Vector3f >& P, unsigned steps );
+Curve evalBezier(const std::vector< Vector3f >& P, unsigned steps);
 
 // Bsplines only require that there are at least 4 control points.
-Curve evalBspline( const std::vector< Vector3f >& P, unsigned steps );
+Curve evalBspline(const std::vector< Vector3f >& P, unsigned steps);
 
 // Create a circle on the xy-plane of radius and steps
-Curve evalCircle( float radius, unsigned steps);
+Curve evalCircle(float radius, unsigned steps);
 
 
 // Draw the curve and (optionally) the associated coordinate frames
 // If framesize == 0, then no frames are drawn.  Otherwise, drawn.
-void drawCurve( const Curve& curve, float framesize = 0 );
+void drawCurve(const Curve& curve, float framesize = 0);
 
 #endif

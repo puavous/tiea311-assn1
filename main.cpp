@@ -43,7 +43,7 @@ namespace
 
     // This detemines how big to draw the normals
     const float gLineLen = 0.1f;
-    
+
     // These are arrays for display lists for each drawing mode.  The
     // convention is that drawmode 0 is "blank", and other drawmodes
     // just call the appropriate display lists.
@@ -51,7 +51,7 @@ namespace
     GLuint gSurfaceLists[3];
     GLuint gAxisList;
     GLuint gPointList;
-   
+
     // These STL Vectors store the control points, curves, and
     // surfaces that will end up being drawn.  In addition, parallel
     // STL vectors store the names for the curves and surfaces (as
@@ -64,21 +64,21 @@ namespace
 
     // Declarations of functions whose implementations occur later.
     void arcballRotation(int endX, int endY);
-    void keyboardFunc( unsigned char key, int x, int y);
-    void specialFunc( int key, int x, int y );
+    void keyboardFunc(unsigned char key, int x, int y);
+    void specialFunc(int key, int x, int y);
     void mouseFunc(int button, int state, int x, int y);
     void motionFunc(int x, int y);
     void reshapeFunc(int w, int h);
     void drawScene(void);
     void initRendering();
-    void loadObjects(int argc, char *argv[]);
+    void loadObjects(int argc, char* argv[]);
     void makeDisplayLists();
 
     // This function is called whenever a "Normal" key press is
     // received.
-    void keyboardFunc( unsigned char key, int x, int y )
+    void keyboardFunc(unsigned char key, int x, int y)
     {
-        switch ( key )
+        switch (key)
         {
         case 27: // Escape key
             exit(0);
@@ -87,23 +87,23 @@ namespace
         {
             Matrix4f eye = Matrix4f::identity();
             camera.SetRotation(eye);
-            camera.SetCenter(Vector3f(0,0,0));
+            camera.SetCenter(Vector3f(0, 0, 0));
             break;
         }
         case 'c':
         case 'C':
-            gCurveMode = (gCurveMode+1)%3;
+            gCurveMode = (gCurveMode + 1) % 3;
             break;
         case 's':
         case 'S':
-            gSurfaceMode = (gSurfaceMode+1)%3;
+            gSurfaceMode = (gSurfaceMode + 1) % 3;
             break;
         case 'p':
         case 'P':
-            gPointMode = (gPointMode+1)%2;
-            break;            
+            gPointMode = (gPointMode + 1) % 2;
+            break;
         default:
-            cout << "Unhandled key press " << key << "." << endl;        
+            cout << "Unhandled key press " << key << "." << endl;
         }
 
         glutPostRedisplay();
@@ -111,15 +111,15 @@ namespace
 
     // This function is called whenever a "Special" key press is
     // received.  Right now, it does nothing.
-    void specialFunc( int key, int x, int y )
+    void specialFunc(int key, int x, int y)
     {
-		/*
+        /*
         switch ( key )
         {
-		default:
-			break;
+        default:
+            break;
         }
-		*/
+        */
 
         //glutPostRedisplay();
     }
@@ -130,7 +130,7 @@ namespace
         if (state == GLUT_DOWN)
         {
             gMousePressed = true;
-            
+
             switch (button)
             {
             case GLUT_LEFT_BUTTON:
@@ -140,14 +140,14 @@ namespace
                 camera.MouseClick(Camera::MIDDLE, x, y);
                 break;
             case GLUT_RIGHT_BUTTON:
-                camera.MouseClick(Camera::RIGHT, x,y);
+                camera.MouseClick(Camera::RIGHT, x, y);
             default:
                 break;
-            }                       
+            }
         }
         else
         {
-            camera.MouseRelease(x,y);
+            camera.MouseRelease(x, y);
             gMousePressed = false;
         }
         glutPostRedisplay();
@@ -156,8 +156,8 @@ namespace
     // Called when mouse is moved while button pressed.
     void motionFunc(int x, int y)
     {
-        camera.MouseDrag(x,y);        
-    
+        camera.MouseDrag(x, y);
+
         glutPostRedisplay();
     }
 
@@ -165,9 +165,9 @@ namespace
     // w, h - width and height of the window in pixels.
     void reshapeFunc(int w, int h)
     {
-        camera.SetDimensions(w,h);
+        camera.SetDimensions(w, h);
 
-        camera.SetViewport(0,0,w,h);
+        camera.SetViewport(0, 0, w, h);
         camera.ApplyViewport();
 
         // Set up a perspective view, with square aspect ratio
@@ -184,12 +184,12 @@ namespace
         // Clear the rendering window
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        glMatrixMode( GL_MODELVIEW );  
-        glLoadIdentity();              
+        glMatrixMode(GL_MODELVIEW);
+        glLoadIdentity();
 
         // Light color (RGBA)
-        GLfloat Lt0diff[] = {1.0,1.0,1.0,1.0};
-        GLfloat Lt0pos[] = {3.0,3.0,5.0,1.0};
+        GLfloat Lt0diff[] = { 1.0,1.0,1.0,1.0 };
+        GLfloat Lt0pos[] = { 3.0,3.0,5.0,1.0 };
         glLightfv(GL_LIGHT0, GL_DIFFUSE, Lt0diff);
         glLightfv(GL_LIGHT0, GL_POSITION, Lt0pos);
 
@@ -214,7 +214,7 @@ namespace
 
         if (gPointMode)
             glCallList(gPointList);
-                 
+
         // Dump the image to the screen.
         glutSwapBuffers();
 
@@ -238,18 +238,18 @@ namespace
           glEnable(GL_BLEND);
           glEnable(GL_POINT_SMOOTH);
           glEnable(GL_LINE_SMOOTH);
-          glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);    
+          glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
           glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
           glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         */
-        
+
         // Clear to black
-        glClearColor(0,0,0,1);
+        glClearColor(0, 0, 0, 1);
 
         // Base material colors (they don't change)
-        GLfloat diffColor[] = {0.4, 0.4, 0.4, 1};
-        GLfloat specColor[] = {0.9, 0.9, 0.9, 1};
-        GLfloat shininess[] = {50.0};
+        GLfloat diffColor[] = { 0.4, 0.4, 0.4, 1 };
+        GLfloat specColor[] = { 0.9, 0.9, 0.9, 1 };
+        GLfloat shininess[] = { 50.0 };
 
         glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, diffColor);
         glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, specColor);
@@ -259,31 +259,31 @@ namespace
     // Load in objects from standard input into the global variables: 
     // gCtrlPoints, gCurves, gCurveNames, gSurfaces, gSurfaceNames.  If
     // loading fails, this will exit the program.
-    void loadObjects(int argc, char *argv[])
+    void loadObjects(int argc, char* argv[])
     {
         if (argc < 2)
         {
-            cerr<< "usage: " << argv[0] << " SWPFILE [OBJPREFIX] " << endl;
+            cerr << "usage: " << argv[0] << " SWPFILE [OBJPREFIX] " << endl;
             exit(0);
         }
 
         ifstream in(argv[1]);
         if (!in)
         {
-            cerr<< argv[1] << " not found\a" << endl;
+            cerr << argv[1] << " not found\a" << endl;
             exit(0);
         }
 
-        
+
         cerr << endl << "*** loading and constructing curves and surfaces ***" << endl;
-        
+
         if (!parseFile(in, gCtrlPoints,
-                       gCurves, gCurveNames,
-                       gSurfaces, gSurfaceNames))
+            gCurves, gCurveNames,
+            gSurfaces, gSurfaceNames))
         {
             cerr << "\aerror in file format\a" << endl;
             in.close();
-            exit(-1);              
+            exit(-1);
         }
 
         in.close();
@@ -292,10 +292,10 @@ namespace
         if (argc > 2)
         {
             cerr << endl << "*** writing obj files ***" << endl;
-            
+
             string prefix(argv[2]);
 
-            for (unsigned i=0; i<gSurfaceNames.size(); i++)
+            for (unsigned i = 0; i < gSurfaceNames.size(); i++)
             {
                 if (gSurfaceNames[i] != ".")
                 {
@@ -308,18 +308,18 @@ namespace
 
                     if (!out)
                     {
-                        cerr << "\acould not open file " << filename << ", skipping"<< endl;
+                        cerr << "\acould not open file " << filename << ", skipping" << endl;
                         out.close();
                         continue;
                     }
                     else
                     {
                         outputObjFile(out, gSurfaces[i]);
-                        cerr << "wrote " << filename <<  endl;
+                        cerr << "wrote " << filename << endl;
                     }
                 }
             }
-            
+
         }
 
         cerr << endl << "*** done ***" << endl;
@@ -337,31 +337,31 @@ namespace
         gPointList = glGenLists(1);
 
         // Compile the display lists
-        
+
         glNewList(gCurveLists[1], GL_COMPILE);
         {
-            for (unsigned i=0; i<gCurves.size(); i++)
+            for (unsigned i = 0; i < gCurves.size(); i++)
                 drawCurve(gCurves[i], 0.0);
         }
         glEndList();
-                
+
         glNewList(gCurveLists[2], GL_COMPILE);
         {
-            for (unsigned i=0; i<gCurves.size(); i++)
+            for (unsigned i = 0; i < gCurves.size(); i++)
                 drawCurve(gCurves[i], gLineLen);
         }
         glEndList();
-        
+
         glNewList(gSurfaceLists[1], GL_COMPILE);
         {
-            for (unsigned i=0; i<gSurfaces.size(); i++)
+            for (unsigned i = 0; i < gSurfaces.size(); i++)
                 drawSurface(gSurfaces[i], true);
         }
         glEndList();
 
         glNewList(gSurfaceLists[2], GL_COMPILE);
         {
-            for (unsigned i=0; i<gSurfaces.size(); i++)
+            for (unsigned i = 0; i < gSurfaces.size(); i++)
             {
                 drawSurface(gSurfaces[i], false);
                 drawNormals(gSurfaces[i], gLineLen);
@@ -378,20 +378,20 @@ namespace
             glDisable(GL_LIGHTING);
             glLineWidth(3);
             glPushMatrix();
-            glScaled(5.0,5.0,5.0);
+            glScaled(5.0, 5.0, 5.0);
             glBegin(GL_LINES);
-            glColor4f(1,0.5,0.5,1); glVertex3d(0,0,0); glVertex3d(1,0,0);
-            glColor4f(0.5,1,0.5,1); glVertex3d(0,0,0); glVertex3d(0,1,0);
-            glColor4f(0.5,0.5,1,1); glVertex3d(0,0,0); glVertex3d(0,0,1);
+            glColor4f(1, 0.5, 0.5, 1); glVertex3d(0, 0, 0); glVertex3d(1, 0, 0);
+            glColor4f(0.5, 1, 0.5, 1); glVertex3d(0, 0, 0); glVertex3d(0, 1, 0);
+            glColor4f(0.5, 0.5, 1, 1); glVertex3d(0, 0, 0); glVertex3d(0, 0, 1);
 
-            glColor4f(0.5,0.5,0.5,1);
-            glVertex3d(0,0,0); glVertex3d(-1,0,0);
-            glVertex3d(0,0,0); glVertex3d(0,-1,0);
-            glVertex3d(0,0,0); glVertex3d(0,0,-1);
-        
+            glColor4f(0.5, 0.5, 0.5, 1);
+            glVertex3d(0, 0, 0); glVertex3d(-1, 0, 0);
+            glVertex3d(0, 0, 0); glVertex3d(0, -1, 0);
+            glVertex3d(0, 0, 0); glVertex3d(0, 0, -1);
+
             glEnd();
             glPopMatrix();
-            
+
             glPopAttrib();
         }
         glEndList();
@@ -402,53 +402,53 @@ namespace
             glPushAttrib(GL_ALL_ATTRIB_BITS);
 
             // Setup for point drawing
-            glDisable(GL_LIGHTING);    
-            glColor4f(1,1,0.0,1);
+            glDisable(GL_LIGHTING);
+            glColor4f(1, 1, 0.0, 1);
             glPointSize(4);
             glLineWidth(1);
 
-            for (unsigned i=0; i<gCtrlPoints.size(); i++)
+            for (unsigned i = 0; i < gCtrlPoints.size(); i++)
             {
                 glBegin(GL_POINTS);
-                for (unsigned j=0; j<gCtrlPoints[i].size(); j++)
+                for (unsigned j = 0; j < gCtrlPoints[i].size(); j++)
                     glVertex(gCtrlPoints[i][j]);
                 glEnd();
 
                 glBegin(GL_LINE_STRIP);
-                for (unsigned j=0; j<gCtrlPoints[i].size(); j++)
+                for (unsigned j = 0; j < gCtrlPoints[i].size(); j++)
                     glVertex(gCtrlPoints[i][j]);
                 glEnd();
             }
-            
+
             glPopAttrib();
         }
         glEndList();
 
     }
-    
+
 }
 
 // Main routine.
 // Set up OpenGL, define the callbacks and start the main loop
-int main( int argc, char* argv[] )
+int main(int argc, char* argv[])
 {
     // Load in from standard input
     loadObjects(argc, argv);
 
-    glutInit(&argc,argv);
+    glutInit(&argc, argv);
 
     // We're going to animate it, so double buffer 
-    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH );
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 
     // Initial parameters for window position and size
-    glutInitWindowPosition( 60, 60 );
-    glutInitWindowSize( 600, 600 );
-    
+    glutInitWindowPosition(60, 60);
+    glutInitWindowSize(600, 600);
+
     camera.SetDimensions(600, 600);
 
     camera.SetDistance(10);
-    camera.SetCenter(Vector3f(0,0,0));
-    
+    camera.SetCenter(Vector3f(0, 0, 0));
+
     glutCreateWindow("Assignment 1");
 
     // Initialize OpenGL parameters.
@@ -463,16 +463,16 @@ int main( int argc, char* argv[] )
     glutMotionFunc(motionFunc);
 
     // Set up the callback function for resizing windows
-    glutReshapeFunc( reshapeFunc );
+    glutReshapeFunc(reshapeFunc);
 
     // Call this whenever window needs redrawing
-    glutDisplayFunc( drawScene );
+    glutDisplayFunc(drawScene);
 
     // Trigger timerFunc every 20 msec
     //  glutTimerFunc(20, timerFunc, 0);
 
     makeDisplayLists();
-        
+
     // Start the main loop.  glutMainLoop never returns.
     glutMainLoop();
 
